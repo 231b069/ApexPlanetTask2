@@ -45,5 +45,3 @@ The project demonstrates intermediate HTML, CSS, and JavaScript concepts includi
 - JavaScript (ES6)
 
 ---
-
-## Project Structure
