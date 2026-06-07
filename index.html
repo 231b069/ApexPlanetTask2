@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApexPlanet Task 2</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f8fb;
+      color: #222;
+    }
+
+    nav {
+      background: #00695c;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 50px 20px;
+      background: #e0f2f1;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #00695c;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background: #00695c;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #004d40;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    .success {
+      color: green;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .todo-input {
+      display: flex;
+      gap: 10px;
+    }
+
+    .todo-input input {
+      flex: 1;
+    }
+
+    .todo-input button {
+      width: 120px;
+    }
+
+    ul#taskList {
+      margin-top: 15px;
+      list-style: none;
+    }
+
+    ul#taskList li {
+      background: #e0f2f1;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .delete-btn {
+      width: auto;
+      padding: 6px 10px;
+      background: crimson;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #00695c;
+      color: white;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .todo-input {
+        flex-direction: column;
+      }
+
+      .todo-input button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>ApexPlanet Task 2</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#todo">To-Do</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <h1>Intermediate HTML, CSS and JavaScript</h1>
+    <p>Contact Form, Form Validation, Responsive Layout and To-Do List</p>
+  </section>
+
+  <main class="container">
+
+    <section class="card" id="contact">
+      <h2>Contact Form</h2>
+
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Enter your name" />
+        <p class="error" id="nameError"></p>
+
+        <input type="email" id="email" placeholder="Enter your email" />
+        <p class="error" id="emailError"></p>
+
+        <textarea id="message" rows="5" placeholder="Enter your message"></textarea>
+        <p class="error" id="messageError"></p>
+
+        <button type="submit">Submit</button>
+        <p class="success" id="successMsg"></p>
+      </form>
+    </section>
+
+    <section class="card" id="todo">
+      <h2>Dynamic To-Do List</h2>
+
+      <div class="todo-input">
+        <input type="text" id="taskInput" placeholder="Enter a task" />
+        <button onclick="addTask()">Add</button>
+      </div>
+
+      <ul id="taskList"></ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Created by Aryan Swain | ApexPlanet Internship Task 2</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      document.getElementById("nameError").textContent = "";
+      document.getElementById("emailError").textContent = "";
+      document.getElementById("messageError").textContent = "";
+      document.getElementById("successMsg").textContent = "";
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      let isValid = true;
+
+      if (name === "") {
+        document.getElementById("nameError").textContent = "Name is required";
+        isValid = false;
+      }
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      if (email === "") {
+        document.getElementById("emailError").textContent = "Email is required";
+        isValid = false;
+      } else if (!email.match(emailPattern)) {
+        document.getElementById("emailError").textContent = "Enter a valid email";
+        isValid = false;
+      }
+
+      if (message === "") {
+        document.getElementById("messageError").textContent = "Message is required";
+        isValid = false;
+      }
+
+      if (isValid) {
+        document.getElementById("successMsg").textContent = "Form submitted successfully!";
+        form.reset();
+      }
+    });
+
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskText = taskInput.value.trim();
+
+      if (taskText === "") {
+        alert("Please enter a task");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span>${taskText}</span>
+        <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+      `;
+
+      document.getElementById("taskList").appendChild(li);
+      taskInput.value = "";
+    }
+
+    function deleteTask(button) {
+      button.parentElement.remove();
+    }
+  </script>
+
+</body>
+</html>
